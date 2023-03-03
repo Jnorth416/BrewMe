@@ -80,6 +80,8 @@ class UserLocationViewController: UIViewController, CLLocationManagerDelegate, U
                 }
             } else {
                 userAlerts(message: "Unable to find Breweries ChecK Network Connection", title: "Error")
+                activityIndicator.stopAnimating()
+                activityIndicator.isHidden = true
             }
         }
     }

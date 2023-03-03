@@ -19,35 +19,49 @@ class BreweryTypeViewController: UITableViewController {
     private var context = DataController.shared.viewContext
     private lazy var breweryService = BreweryService()
     
+    //MARK: - Constants
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
+    
     //MARK: - IBOutlet
     @IBOutlet var breweryTableView: UITableView!
-    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.activityIndicator.startAnimating()
+        tableView.backgroundView = activityIndicator
         if  locationManager.manager.authorizationStatus == .denied {
+            self.activityIndicator.startAnimating()
+            tableView.backgroundView = activityIndicator
             breweryService.typesOfBreweries(breweryType: breweryType, lat: Constants.defaultLocation.coordinate.latitude, long: Constants.defaultLocation.coordinate.longitude) { [self] response, error in
                 if error == nil {
                     BreweryData.sharedInstance().breweries = response!
                     DispatchQueue.main.async{
                         self.breweryTableView.reloadData()
+                        self.activityIndicator.stopAnimating()
+                        self.activityIndicator.isHidden = true
                     }
                 } else {
                     userAlerts(message: "\(error!.localizedDescription)", title: "Error")
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
                 }
                 
             }
         } else {
-            locationManager.getUserLocation { location in
+            locationManager.getUserLocation { [self] location in
                 self.breweryService.typesOfBreweries(breweryType: self.breweryType, lat: location.coordinate.latitude, long: location.coordinate.longitude) { [self] response, error in
                     if error == nil{
                         BreweryData.sharedInstance().breweries = response!
                         DispatchQueue.main.async {
                             self.breweryTableView.reloadData()
+                            self.activityIndicator.stopAnimating()
+                            self.activityIndicator.isHidden = true
                         }
                     } else {
                         
                         userAlerts(message: "\(error!.localizedDescription)", title: "Error")
+                        self.activityIndicator.stopAnimating()
+                        self.activityIndicator.isHidden = true
                     }
                 }
             }
