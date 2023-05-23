@@ -39,6 +39,7 @@ class UserLocationViewController: UIViewController, CLLocationManagerDelegate, U
         if locationRequest.manager.authorizationStatus == .denied{
             render(Constants.defaultLocation)
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
