@@ -8,7 +8,26 @@
 import Foundation
 import UIKit
 
-class SearchLocationViewController: UIViewController {
+class SearchLocationViewController: UIViewController, UISearchResultsUpdating {
+   
+    
+    
+    private lazy var breweryService = BreweryService()
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text, !text.trimmingCharacters(in: .whitespaces).isEmpty, let searchResults = searchController.searchResultsController as? SearchResultsViewController else {
+            return
+        }
+        breweryService.breweryAutoComplete(searchQuery: text) { response, error in
+            print(text)
+            DispatchQueue.main.async{
+                searchResults.update(with: response)
+            }
+        }
+    }
+    
+    let searchController = UISearchController(searchResultsController: SearchResultsViewController())
+    
     
     // MARK: - IBOutlets
     @IBOutlet var collectionView: UICollectionView!
@@ -27,12 +46,16 @@ class SearchLocationViewController: UIViewController {
         UIImage(named: "image 7")!,
     ]
     
+    public var breweryType: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.indentifier)
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
         
     }
     
@@ -40,6 +63,7 @@ class SearchLocationViewController: UIViewController {
     @IBAction func searchButton(_ sender: Any) {
         self.performSegue(withIdentifier: "BreweryTableView", sender: self)
     }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -55,7 +79,8 @@ class SearchLocationViewController: UIViewController {
 extension SearchLocationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        searchTextField.text = breweryLabels[indexPath.item]
+        
+        breweryType = breweryLabels[indexPath.item]
         self.performSegue(withIdentifier: "BreweryTableView", sender: indexPath)
     }
     
@@ -89,8 +114,7 @@ extension SearchLocationViewController: UICollectionViewDelegate, UICollectionVi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "BreweryTableView" {
             let BreweryTypeTableVC = segue.destination as? BreweryTypeViewController
-            BreweryTypeTableVC?.breweryType = searchTextField.text ?? ""
+            BreweryTypeTableVC?.breweryType = breweryType
         }
-        searchTextField.text = ""
     }
 }

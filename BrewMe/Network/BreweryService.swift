@@ -16,6 +16,7 @@ class BreweryService {
     enum Endpoints{
         case breweryRequest(Double, Double)
         case breweryType(String, Double, Double)
+        case breweryAutoComplete(String)
         
         var stringValue: String{
             switch self{
@@ -23,11 +24,13 @@ class BreweryService {
                 return Constants.baseURL + "?by_dist=\(latitude),\(longitude)&per_page=50"
             case let .breweryType(breweryType, latitude, longitude):
                 return Constants.baseURL + "?by_dist=\(latitude),\(longitude)&by_type=\(breweryType)&per_page=50"
+            case let .breweryAutoComplete(breweryAutoComplete):
+                return Constants.baseURL + "/autocomplete?query=\(breweryAutoComplete)"
             }
         }
         
         var url: URL{
-            return URL(string: stringValue)!
+            return URL(string: stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!
         }
     }
     
@@ -53,6 +56,16 @@ class BreweryService {
     
     func typesOfBreweries(breweryType: String, lat: Double, long: Double, completion: @escaping([BreweryResponse]?,Error?) -> Void) {
         BreweryAPI.taskForGetRequest(url: Endpoints.breweryType(breweryType, lat, long).url, responseType: BreweryResponse.self) { response, error in
+            if let response = response {
+                completion(response,nil)
+            } else {
+                completion([],error)
+            }
+        }
+    }
+    
+    func breweryAutoComplete(searchQuery: String, completion: @escaping([BreweryResponse],Error?) -> Void) {
+        BreweryAPI.taskForGetRequest(url: Endpoints.breweryAutoComplete(searchQuery).url, responseType: BreweryResponse.self) { response, error in
             if let response = response {
                 completion(response,nil)
             } else {
