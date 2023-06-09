@@ -31,7 +31,7 @@ class SearchLocationViewController: UIViewController, UISearchResultsUpdating {
     
     // MARK: - IBOutlets
     @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var searchTextField: UITextField!
+    
     
     // MARK: - Constants
     private let itemsPerRow: CGFloat = 2
@@ -60,19 +60,7 @@ class SearchLocationViewController: UIViewController, UISearchResultsUpdating {
     }
     
     //MARK: - Search field
-    @IBAction func searchButton(_ sender: Any) {
-        self.performSegue(withIdentifier: "BreweryTableView", sender: self)
-    }
     
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
 }
 
 // MARK: - CollectionView

@@ -17,6 +17,7 @@ class BreweryService {
         case breweryRequest(Double, Double)
         case breweryType(String, Double, Double)
         case breweryAutoComplete(String)
+        case singleBreweryId(String)
         
         var stringValue: String{
             switch self{
@@ -26,6 +27,8 @@ class BreweryService {
                 return Constants.baseURL + "?by_dist=\(latitude),\(longitude)&by_type=\(breweryType)&per_page=50"
             case let .breweryAutoComplete(breweryAutoComplete):
                 return Constants.baseURL + "/autocomplete?query=\(breweryAutoComplete)"
+            case let .singleBreweryId(singleBreweryId):
+                return Constants.baseURL + "/\(singleBreweryId)"
             }
         }
         
@@ -70,6 +73,23 @@ class BreweryService {
                 completion(response,nil)
             } else {
                 completion([],error)
+            }
+        }
+    }
+    
+    func getSingleBrewery(breweryId: String, completion: @escaping(SingleBreweryResponse?,Error?) -> Void) {
+        BreweryAPI.taskForSingleBreweryGetRequest(url: Endpoints.singleBreweryId(breweryId).url, responseType: SingleBreweryResponse.self) { response, error in
+            if let response = response {
+                do {
+                    try self.breweryRepo.saveSingleBreweryDTO(BreweryDTO: response)
+                } catch{
+                    print(error)
+                }
+                
+                completion(response,nil)
+            } else if let error = error {
+                print(error)
+                completion(nil,error)
             }
         }
     }

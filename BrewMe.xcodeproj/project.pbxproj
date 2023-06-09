@@ -22,6 +22,7 @@
 		27A143022937F8700046F6E5 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A143012937F8700046F6E5 /* DataController.swift */; };
 		27A366B62A3157AB000C6C48 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A366B52A3157AB000C6C48 /* SearchResultsViewController.swift */; };
 		27A366B82A315987000C6C48 /* SearchResultsMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A366B72A315987000C6C48 /* SearchResultsMapView.swift */; };
+		27A366BA2A3257EE000C6C48 /* SingleBreweryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A366B92A3257EE000C6C48 /* SingleBreweryResponse.swift */; };
 		27CC03E2291ADE14006835CA /* FavoriteBreweriesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC03E1291ADE14006835CA /* FavoriteBreweriesTableView.swift */; };
 		27D394052963735900E9080A /* AnnotationSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D394042963735900E9080A /* AnnotationSubclass.swift */; };
 		27D39407296602F600E9080A /* BreweryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D39406296602F600E9080A /* BreweryRepository.swift */; };
@@ -49,6 +50,8 @@
 		27A143012937F8700046F6E5 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		27A366B52A3157AB000C6C48 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		27A366B72A315987000C6C48 /* SearchResultsMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsMapView.swift; sourceTree = "<group>"; };
+		27A366B92A3257EE000C6C48 /* SingleBreweryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleBreweryResponse.swift; sourceTree = "<group>"; };
+		27A366BD2A327F20000C6C48 /* BrewMe 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewMe 2.xcdatamodel"; sourceTree = "<group>"; };
 		27CC03E1291ADE14006835CA /* FavoriteBreweriesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBreweriesTableView.swift; sourceTree = "<group>"; };
 		27D394042963735900E9080A /* AnnotationSubclass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationSubclass.swift; sourceTree = "<group>"; };
 		27D39406296602F600E9080A /* BreweryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreweryRepository.swift; sourceTree = "<group>"; };
@@ -136,6 +139,7 @@
 			children = (
 				27D3940A296603B800E9080A /* Constants.swift */,
 				27305F9428D27FCD007EFCE2 /* BreweryResponse.swift */,
+				27A366B92A3257EE000C6C48 /* SingleBreweryResponse.swift */,
 				27305F9228D27C0D007EFCE2 /* BreweryAPI.swift */,
 				27D394082966035800E9080A /* BreweryService.swift */,
 				27305F9828D29BF9007EFCE2 /* BreweryData.swift */,
@@ -245,6 +249,7 @@
 				27D39407296602F600E9080A /* BreweryRepository.swift in Sources */,
 				27D3940B296603B800E9080A /* Constants.swift in Sources */,
 				2780F55A28CFB21600DAB8BF /* AppDelegate.swift in Sources */,
+				27A366BA2A3257EE000C6C48 /* SingleBreweryResponse.swift in Sources */,
 				27A143002936AC7C0046F6E5 /* BrewMe.xcdatamodeld in Sources */,
 				27D394092966035800E9080A /* BreweryService.swift in Sources */,
 				27EE1A0E28F77DA300B89FDA /* BreweryTypeTableViewController.swift in Sources */,
@@ -479,9 +484,10 @@
 		27A142FE2936AC7C0046F6E5 /* BrewMe.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				27A366BD2A327F20000C6C48 /* BrewMe 2.xcdatamodel */,
 				27A142FF2936AC7C0046F6E5 /* BrewMe.xcdatamodel */,
 			);
-			currentVersion = 27A142FF2936AC7C0046F6E5 /* BrewMe.xcdatamodel */;
+			currentVersion = 27A366BD2A327F20000C6C48 /* BrewMe 2.xcdatamodel */;
 			path = BrewMe.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

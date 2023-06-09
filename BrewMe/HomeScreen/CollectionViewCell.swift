@@ -15,6 +15,7 @@ class CollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var BreweryImageView: UIImageView!
     @IBOutlet weak var BreweryLabel: UILabel!
+    
 }
     
     
