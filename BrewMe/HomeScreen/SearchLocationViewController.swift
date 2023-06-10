@@ -10,28 +10,8 @@ import UIKit
 
 class SearchLocationViewController: UIViewController, UISearchResultsUpdating {
    
-    
-    
-    private lazy var breweryService = BreweryService()
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text, !text.trimmingCharacters(in: .whitespaces).isEmpty, let searchResults = searchController.searchResultsController as? SearchResultsViewController else {
-            return
-        }
-        breweryService.breweryAutoComplete(searchQuery: text) { response, error in
-            print(text)
-            DispatchQueue.main.async{
-                searchResults.update(with: response)
-            }
-        }
-    }
-    
-    let searchController = UISearchController(searchResultsController: SearchResultsViewController())
-    
-    
     // MARK: - IBOutlets
     @IBOutlet var collectionView: UICollectionView!
-    
     
     // MARK: - Constants
     private let itemsPerRow: CGFloat = 2
@@ -45,9 +25,13 @@ class SearchLocationViewController: UIViewController, UISearchResultsUpdating {
         UIImage(named: "image 6")!,
         UIImage(named: "image 7")!,
     ]
+    let searchController = UISearchController(searchResultsController: SearchResultsViewController())
     
+    // MARK: Varibles
     public var breweryType: String = ""
+    private lazy var breweryService = BreweryService()
     
+    // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
@@ -59,8 +43,23 @@ class SearchLocationViewController: UIViewController, UISearchResultsUpdating {
         
     }
     
-    //MARK: - Search field
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        collectionView.flashScrollIndicators()
+    }
     
+    //MARK: - Search field
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text, !text.trimmingCharacters(in: .whitespaces).isEmpty, let searchResults = searchController.searchResultsController as? SearchResultsViewController else {
+            return
+        }
+        breweryService.breweryAutoComplete(searchQuery: text) { response, error in
+            print(text)
+            DispatchQueue.main.async{
+                searchResults.update(with: response)
+            }
+        }
+    }
 }
 
 // MARK: - CollectionView

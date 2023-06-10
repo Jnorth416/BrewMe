@@ -34,7 +34,6 @@ class BreweryAPI {
         task.resume()
     }
     
-    
     class func taskForSingleBreweryGetRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {

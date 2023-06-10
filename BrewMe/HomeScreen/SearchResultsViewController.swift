@@ -10,18 +10,18 @@ import UIKit
 
 class SearchResultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
-    
-    
-
+    // MARK: Variables
     private lazy var breweryService = BreweryService()
     private var breweries: [BreweryResponse] = []
     
+    // MARK: TableView Init
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return table
     }()
     
+    // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
@@ -29,12 +29,19 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.dataSource = self
         
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
     
+    // MARK: TableView updating logic
+    public func update(with breweries: [BreweryResponse]){
+        self.breweries = breweries
+        tableView.reloadData()
+    }
     
+    // MARK: TableView for AutoComplete
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return breweries.count
     }
@@ -44,6 +51,7 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
         cell.textLabel?.text = breweries[indexPath.row].name
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         breweryService.getSingleBrewery(breweryId: breweries[indexPath.row].id!) { response, error in
@@ -55,7 +63,7 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
                 searchResultsMapView.websiteURL = response.websiteURL ?? "No Website Found"
                 searchResultsMapView.name = response.name!
                 self.present(searchResultsMapView, animated: true, completion: nil)
-
+                
                 
             } else {
                 print("failed")
@@ -64,14 +72,9 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
         }
         
     }
-    
-    public func update(with breweries: [BreweryResponse]){
-        self.breweries = breweries
-        tableView.reloadData()
-    }
 }
 
-
+// MARK: Alert Controller
 extension UIViewController {
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

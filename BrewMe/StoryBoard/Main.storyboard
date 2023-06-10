@@ -38,7 +38,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7tr-cj-HMI">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7tr-cj-HMI">
                                 <rect key="frame" x="0.0" y="386" width="414" height="427"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="d4N-X9-Aqm">
@@ -225,7 +225,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jNh-wI-ThW">
-                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="848"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DFu-wO-myg">
@@ -246,7 +246,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="jNh-wI-ThW" firstAttribute="top" secondItem="YAE-HR-aYW" secondAttribute="top" id="EOs-Ri-bY7"/>
-                            <constraint firstItem="jNh-wI-ThW" firstAttribute="bottom" secondItem="YAE-HR-aYW" secondAttribute="bottom" id="V54-fx-M2o"/>
+                            <constraint firstAttribute="bottom" secondItem="jNh-wI-ThW" secondAttribute="bottom" id="iJm-Lq-ZB6"/>
                             <constraint firstItem="jNh-wI-ThW" firstAttribute="trailing" secondItem="YAE-HR-aYW" secondAttribute="trailing" id="mja-Fk-zg9"/>
                             <constraint firstItem="jNh-wI-ThW" firstAttribute="leading" secondItem="YAE-HR-aYW" secondAttribute="leading" id="p6g-3b-TrX"/>
                         </constraints>

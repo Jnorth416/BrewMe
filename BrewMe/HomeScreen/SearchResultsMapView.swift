@@ -13,9 +13,9 @@ import CoreData
 
 class SearchResultsMapView: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate{
     
-    
     @IBOutlet weak var mapView: MKMapView!
     
+    // MARK: Variables
     public var name: String = ""
     public var latitude: String = ""
     public var longitude: String = ""
@@ -25,51 +25,39 @@ class SearchResultsMapView: UIViewController, MKMapViewDelegate, NSFetchedResult
     private var fetchedResultsController: NSFetchedResultsController<SingleBrewery>!
     
     private let context = DataController.shared.viewContext
+    let regionRadius: CLLocationDistance = 1000 // Adjust the desired radius in meters
     
+    // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         singleBreweryFetchRequest()
         mapView.delegate = self
         let initialLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
-                centerMapOnLocation(location: initialLocation)
+        centerMapOnLocation(location: initialLocation)
         placePin()
-        
-                
     }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         resetPin()
     }
     
+    // MARK: IBAction
     @IBAction func favorite(_ sender: Any) {
         favoriteBreweries()
     }
     
-    
-   
-    
-        let regionRadius: CLLocationDistance = 1000 // Adjust the desired radius in meters
-        
-        func centerMapOnLocation(location: CLLocation) {
-            let coordinateRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
-            mapView.setRegion(coordinateRegion, animated: true)
-        }
+    // MARK: MapView
+    func centerMapOnLocation(location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
     
     func placePin(){
         let annotation = AnnotationSubclass(coordinate: CLLocationCoordinate2D(latitude: Double(latitude) ?? 0.0, longitude: Double(longitude) ?? 0.0), title: name, subtitle: websiteURL)
         mapView.addAnnotation(annotation)
         annotation.title = name
         annotation.subtitle = websiteURL
-    }
-    
-    func resetPin() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "SingleBrewery")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        do {
-            try context.execute(deleteRequest)
-        } catch {
-            print(error)
-        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -115,10 +103,11 @@ class SearchResultsMapView: UIViewController, MKMapViewDelegate, NSFetchedResult
             let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
             mapItem.openInMaps(launchOptions: options)
             print("tapped")
-//            favoriteBreweries(annotation: annotation)
         }
     }
     
+   
+    // MARK: Fetch and Delete Request
     func singleBreweryFetchRequest() {
         let fetchRequest:NSFetchRequest<SingleBrewery> = SingleBrewery.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "id", ascending: true)
@@ -132,7 +121,17 @@ class SearchResultsMapView: UIViewController, MKMapViewDelegate, NSFetchedResult
         }
     }
     
+    func resetPin() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "SingleBrewery")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        do {
+            try context.execute(deleteRequest)
+        } catch {
+            print(error)
+        }
+    }
     
+    // MARK: Favorites logic
     func favoriteBreweries() {
         let breweries = fetchedResultsController.fetchedObjects
         for dto in breweries! {
@@ -161,7 +160,6 @@ class SearchResultsMapView: UIViewController, MKMapViewDelegate, NSFetchedResult
         }
         return alreadyExists
     }
-    
 }
 
 
